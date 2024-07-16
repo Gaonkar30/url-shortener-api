@@ -16,4 +16,13 @@ router.get("/:shorturl", async (req, res) => {
     res.send("URL not found");
   }
 });
-module.exports=router;
+router.post("*", async (req, res) => {
+  const ShortUrl = req.path.substring(1);
+  const urlObj = await url.findOne({ shortUrl: ShortUrl });
+  if (urlObj) {
+    res.redirect(urlObj.longUrl);
+  } else {
+    res.send("URL not found");
+  }
+});
+module.exports = router;
